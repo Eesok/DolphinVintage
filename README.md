@@ -27,3 +27,7 @@ This app will be an online store for used vintage high end furniture. Why pay to
 | --------- | :----------------------------------: |
 | Furniture |     Category, Style, Description     |
 | Details   | Dimensions, Brand, Materials, Styles |
+
+### Component Hierarchy
+
+![img](https://i.imgur.com/J1xNKaT.jpg)
