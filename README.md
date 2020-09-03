@@ -42,3 +42,18 @@ This app will be an online store for used vintage high end furniture. Why pay to
 ### Component Hierarchy
 
 ![img](https://i.imgur.com/J1xNKaT.jpg)
+
+#### Component Details
+
+| Component       | Description                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| App             | This will make the initial data request and include React Router                                       |
+| FurnitureList   | This will render all of the furniture                                                                  |
+| Furniture       | This will render an individual piece of furniture                                                      |
+| FurnitureCreate | This will perform a POST method in the API call                                                        |
+| FurnitureDetail | This will render an individual piece of furniture and its details                                      |
+| FurnitureEdit   | This will perform a PUT method in the API call                                                         |
+| FurnitureDelete | This will perform a DELETE method in the API call                                                      |
+| Admin-Auth      | This will be responsible for the secure login of the owner of the website to update the site as needed |
+| Search          | This will have the functionality to search for furniture in a list                                     |
+| Filter/Sort     | This will have the functionality to perform a filter or sort on the list                               |
