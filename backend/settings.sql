@@ -1,3 +1,3 @@
-CREATE DATABASE dolphin;
-CREATE USER dolphinuser WITH PASSWORD 'dolphin';
-GRANT ALL PRIVILEGES ON DATABASE dolphin TO dolphinuser;
+CREATE DATABASE dolphinvintage;
+CREATE USER dolphinvintageuser WITH PASSWORD 'dolphinvintage';
+GRANT ALL PRIVILEGES ON DATABASE dolphinvintage TO dolphinvintageuser;
