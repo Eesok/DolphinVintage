@@ -1,0 +1,3 @@
+CREATE DATABASE dolphin;
+CREATE USER dolphinuser WITH PASSWORD 'dolphin';
+GRANT ALL PRIVILEGES ON DATABASE dolphin TO dolphinuser;
