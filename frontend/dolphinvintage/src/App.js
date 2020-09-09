@@ -1,6 +1,7 @@
 import { Route, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import axios from 'axios';
+import ItemsList from './components/ItemsList';
 
 import './App.css';
 
@@ -13,11 +14,11 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		axios('https://new-dolphin-backend.herokuapp.com/items/')
+		axios
+			.get('http://localhost:8000/items/')
 			.then((json) => {
-				console.log(json);
 				this.setState({
-					itemData: json,
+					itemData: json.data,
 				});
 			})
 			.catch(console.error);
@@ -33,7 +34,9 @@ class App extends Component {
 						exact
 						render={() => {
 							return (
-								<div>{/* <ItemsList itemData={this.state.itemData} /> */}</div>
+								<div>
+									<ItemsList itemData={this.state.itemData} />
+								</div>
 							);
 						}}
 					/>
