@@ -2,6 +2,7 @@ import { Route, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import axios from 'axios';
 import ItemsList from './components/ItemsList';
+import Search from './components/Search'
 
 import './App.css';
 
@@ -10,12 +11,16 @@ class App extends Component {
 		super(props);
 		this.state = {
 			itemData: [],
+			searchValue: '',
 		};
 	}
 
+	eventHandler = (data) => {
+		this.setState({ searchValue: data.searchValue });
+	};
+
 	componentDidMount() {
-		axios
-			.get('http://localhost:8000/items/')
+		axios('https://new-dolphin-backend.herokuapp.com/items/')
 			.then((json) => {
 				this.setState({
 					itemData: json.data,
@@ -35,7 +40,11 @@ class App extends Component {
 						render={() => {
 							return (
 								<div>
-									<ItemsList itemData={this.state.itemData} />
+									<Search onChange={this.eventHandler} />
+									<ItemsList
+										searchValue={this.state.searchValue}
+										itemData={this.state.itemData}
+									/>
 								</div>
 							);
 						}}
