@@ -5,29 +5,25 @@ class ItemDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			detailData: [],
+			itemDetails: [],
 		};
 	}
 	componentDidMount() {
-		const id = this.props.match.params.id;
-		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
+		const detailId = this.props.infoData;
+		console.log(detailId);
+		axios(`https://new-dolphin-backend.herokuapp.com/details/`)
 			.then((json) => {
 				this.setState({
-					detailData: json.data,
+					itemDetails: json.data,
 				});
 			})
 			.catch(console.error);
 	}
 
 	render() {
-		return (
-			<div>
-				<h3>{this.state.detailData.name}</h3>
-				<h4>${this.state.detailData.price}</h4>
-				<p>{this.state.detailData.description}</p>
-				<img src={this.state.detailData.item_photo} />
-			</div>
-		);
+		
+		return <div></div>;
 	}
 }
+
 export default ItemDetails;

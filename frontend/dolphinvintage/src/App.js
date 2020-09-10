@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ItemsList from './components/ItemsList';
 import Search from './components/Search';
-import ItemDetails from './components/ItemDetails';
+import ItemInfo from './components/ItemInfo';
 import './App.css';
 
 class App extends Component {
@@ -56,7 +56,7 @@ class App extends Component {
 						render={(routerProps) => {
 							return (
 								<div>
-									<ItemDetails
+									<ItemInfo
 										match={routerProps.match}
 										itemData={this.state.itemData}
 									/>
