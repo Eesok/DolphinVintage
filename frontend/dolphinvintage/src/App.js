@@ -2,8 +2,8 @@ import { Route, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import axios from 'axios';
 import ItemsList from './components/ItemsList';
-import Search from './components/Search'
-
+import Search from './components/Search';
+import ItemDetails from './components/ItemDetails';
 import './App.css';
 
 class App extends Component {
@@ -25,6 +25,7 @@ class App extends Component {
 				this.setState({
 					itemData: json.data,
 				});
+				console.log(this.state.itemData[0].name);
 			})
 			.catch(console.error);
 	}
@@ -43,6 +44,20 @@ class App extends Component {
 									<Search onChange={this.eventHandler} />
 									<ItemsList
 										searchValue={this.state.searchValue}
+										itemData={this.state.itemData}
+									/>
+								</div>
+							);
+						}}
+					/>
+					<Route
+						path='/item/:id'
+						exact
+						render={(routerProps) => {
+							return (
+								<div>
+									<ItemDetails
+										match={routerProps.match}
 										itemData={this.state.itemData}
 									/>
 								</div>
