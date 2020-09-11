@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class ItemInfo extends Component {
@@ -12,9 +12,9 @@ class ItemInfo extends Component {
 			error: false,
 		};
 	}
-	async componentDidMount() {
+	componentDidMount() {
 		const id = this.props.match.params.id;
-		await axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
+		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
 			.then((json) => {
 				this.setState({
 					infoData: json.data,
@@ -60,6 +60,10 @@ class ItemInfo extends Component {
 		return (
 			<div>
 				<button onClick={this.onDeleteMovie}>Delete Item</button>
+				<Link to={`/item/${this.props.match.params.id}/edit`}>
+					Update Item
+				</Link>
+
 				<h3>{this.state.infoData.name}</h3>
 				<h4>${this.state.infoData.price}</h4>
 				<p>{this.state.infoData.description}</p>

@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ItemsList from './components/ItemsList';
 import Search from './components/Search';
-import ItemInfo from './components/ItemInfo';
+import ItemDetails from './components/ItemDetails';
+import ItemEdit from './components/ItemEdit';
 import './App.css';
 
 class App extends Component {
@@ -56,9 +57,23 @@ class App extends Component {
 						render={(routerProps) => {
 							return (
 								<div>
-									<ItemInfo
+									<ItemDetails
 										match={routerProps.match}
 										itemData={this.state.itemData}
+									/>
+								</div>
+							);
+						}}
+					/>
+					<Route
+						path='/item/:id/edit'
+						exact
+						render={(routerProps) => {
+							return (
+								<div>
+									<ItemEdit
+										itemData={this.state.itemData}
+										match={routerProps.match}
 									/>
 								</div>
 							);
