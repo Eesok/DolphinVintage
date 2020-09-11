@@ -1,12 +1,6 @@
 import React from 'react';
 
-const ItemForm = ({
-	itemData,
-	categoryValue,
-	options,
-	handleSubmit,
-	handleChange,
-}) => (
+const ItemForm = ({ itemData, category, handleSubmit, handleChange }) => (
 	<form onSubmit={handleSubmit}>
 		<label htmlFor='name'>Name</label>
 		<input
@@ -51,13 +45,18 @@ const ItemForm = ({
 			name='category'
 			id='category'
 			placeholder='category'
-			onChange={handleChange}
-			options={options}
-			value={options.filter(({ value }) => value === categoryValue)}>
-			<option value='chairs'>Chairs</option>
-			<option value='tables'>Tables</option>
-			<option value='sofas'>Sofas</option>
+			onChange={handleChange}>
+			<option selected={category === 'Chairs' ? true : false} value='Chairs'>
+				Chairs
+			</option>
+			<option selected={category === 'Tables' ? true : false} value='Tables'>
+				Tables
+			</option>
+			<option selected={category === 'Sofas' ? true : false} value='Sofas'>
+				Sofas
+			</option>
 		</select>
+		<button type='submit'>Submit</button>
 	</form>
 );
 

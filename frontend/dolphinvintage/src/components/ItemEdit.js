@@ -7,23 +7,10 @@ class ItemEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			itemData: {
-				name: '',
-				price: '',
-				description: '',
-				item_photo: '',
-				category: '',
-			},
-			categoryValue: '',
+			itemData: {},
 			updated: false,
 			error: false,
 		};
-		this.handleChange = this.handleChange.bind(this);
-		this.options = [
-			{ value: 'chair', label: 'Chair' },
-			{ value: 'table', label: 'Chair' },
-			{ value: 'chair', label: 'Chair' },
-		];
 	}
 
 	componentDidMount() {
@@ -32,7 +19,6 @@ class ItemEdit extends Component {
 			.then((json) => {
 				this.setState({
 					itemData: json.data,
-					categoryValue: this.state.itemData.category,
 				});
 			})
 			.catch(() => {
@@ -41,14 +27,13 @@ class ItemEdit extends Component {
 				});
 			});
 	}
-	handleChange = (event, selectedOption) => {
+	handleChange = (event) => {
 		event.persist();
 		this.setState({
 			itemData: {
 				...this.state.itemData,
 				[event.target.name]: event.target.value,
 			},
-			categoryValue: selectedOption.target.value,
 		});
 	};
 
@@ -56,7 +41,10 @@ class ItemEdit extends Component {
 		event.preventDefault();
 		const id = this.props.match.params.id;
 		axios
-			.put(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
+			.put(
+				`https://new-dolphin-backend.herokuapp.com/items/${id}`,
+				this.state.itemData
+			)
 			.then((json) => {
 				this.setState({
 					updated: true,
@@ -80,13 +68,68 @@ class ItemEdit extends Component {
 		return (
 			<div>
 				<h3>Update an item</h3>
-				<ItemForm
-					options={this.options}
-					categoryValue={this.categoryValue}
-					itemData={this.state.itemData}
-					handleChange={this.handleChange}
-					handleSubmit={this.handleSubmit}
-				/>
+				<form onSubmit={this.handleSubmit}>
+					<label htmlFor='name'>Name</label>
+					<input
+						type='text'
+						placeholder='Item Name'
+						value={this.state.itemData.name}
+						name='name'
+						onChange={this.handleChange}
+						required
+						id='name'
+					/>
+					<label htmlFor='price'>Price</label>
+					<input
+						type='text'
+						placeholder='Price'
+						value={this.state.itemData.price}
+						name='price'
+						onChange={this.handleChange}
+						id='price'
+					/>
+					<label htmlFor='description'>Description</label>
+					<input
+						type='text'
+						placeholder='Description'
+						value={this.state.itemData.description}
+						name='description'
+						onChange={this.handleChange}
+						id='description'
+					/>
+					<label htmlFor='item_photo'>Photo</label>
+					<input
+						type='text'
+						placeholder='Photo'
+						value={this.state.itemData.item_photo}
+						name='item_photo'
+						onChange={this.handleChange}
+						id='item_photo'
+					/>
+					<label htmlFor='category'>Category</label>
+					<select
+						name='category'
+						id='category'
+						placeholder='category'
+						onChange={this.handleChange}>
+						<option
+							selected={this.state.itemData.category === 1 ? true : false}
+							value='Chairs'>
+							Chairs
+						</option>
+						<option
+							selected={this.state.itemData.category === 2 ? true : false}
+							value='Tables'>
+							Tables
+						</option>
+						<option
+							selected={this.state.itemData.category === 3 ? true : false}
+							value='Sofas'>
+							Sofas
+						</option>
+					</select>
+					<button type='submit'>Submit</button>
+				</form>
 			</div>
 		);
 	}
