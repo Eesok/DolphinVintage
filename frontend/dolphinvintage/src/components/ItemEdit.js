@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import ItemForm from './ItemForm';
+
 
 class ItemEdit extends Component {
 	constructor(props) {
