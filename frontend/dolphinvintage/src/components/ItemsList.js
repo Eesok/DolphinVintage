@@ -16,7 +16,7 @@ class ItemsList extends Component {
 	};
 
 	componentDidMount() {
-		axios('https://new-dolphin-backend.herokuapp.com/items/')
+		axios('http://localhost:8000/items/')
 			.then((json) => {
 				this.setState({
 					itemData: json.data,

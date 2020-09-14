@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-
 class ItemEdit extends Component {
 	constructor(props) {
 		super(props);
@@ -15,7 +14,7 @@ class ItemEdit extends Component {
 
 	componentDidMount() {
 		const id = this.props.match.params.id;
-		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
+		axios(`http://localhost:8000/items/${id}`)
 			.then((json) => {
 				this.setState({
 					itemData: json.data,
@@ -41,10 +40,12 @@ class ItemEdit extends Component {
 		event.preventDefault();
 		const id = this.props.match.params.id;
 		axios
-			.put(
-				`https://new-dolphin-backend.herokuapp.com/items/${id}`,
-				this.state.itemData
-			)
+			.put(`http://localhost:8000/items/${id}`, this.state.itemData, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `JWT ${localStorage.getItem('token')}`,
+				},
+			})
 			.then((json) => {
 				this.setState({
 					updated: true,
@@ -114,17 +115,17 @@ class ItemEdit extends Component {
 						onChange={this.handleChange}>
 						<option
 							selected={this.state.itemData.category === 1 ? true : false}
-							value='Chairs'>
+							value='1'>
 							Chairs
 						</option>
 						<option
 							selected={this.state.itemData.category === 2 ? true : false}
-							value='Tables'>
+							value='2'>
 							Tables
 						</option>
 						<option
 							selected={this.state.itemData.category === 3 ? true : false}
-							value='Sofas'>
+							value='3'>
 							Sofas
 						</option>
 					</select>

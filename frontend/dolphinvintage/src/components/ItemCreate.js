@@ -6,9 +6,7 @@ class ItemCreate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			itemData: {
-				details: [],
-			},
+			itemData: {},
 			error: false,
 			createdId: null,
 		};
@@ -26,15 +24,18 @@ class ItemCreate extends Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		axios
-			.post(
-				'https://new-dolphin-backend.herokuapp.com/items/',
-				this.state.itemData
-			)
+		axios({
+			url: 'http://localhost:8000/items/',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `JWT ${localStorage.getItem('token')}`,
+			},
+			data: this.state.itemData,
+		})
 			.then((json) => {
-				console.log(json);
 				this.setState({
-					createdId: this.state.itemData.id,
+					createdId: json.data.id,
 				});
 			})
 			.catch(() => {
@@ -45,7 +46,7 @@ class ItemCreate extends Component {
 	render() {
 		const { createdId } = this.state;
 		if (createdId) {
-			return <Redirect to={`/items/${createdId}`} />;
+			return <Redirect to={`/item/${createdId}`} />;
 		}
 		return (
 			<div>
@@ -84,10 +85,17 @@ class ItemCreate extends Component {
 						id='item_photo'
 					/>
 					<label htmlFor='category'>Category</label>
-					<select name='category' id='category' onChange={this.handleChange}>
-						<option value='Chairs'>Chairs</option>
-						<option value='Tables'>Tables</option>
-						<option value='Sofas'>Sofas</option>
+					<select
+						defaultValue='DEFAULT'
+						name='category'
+						id='category'
+						onChange={this.handleChange}>
+						<option value='DEFAULT' disabled hidden>
+							Select an Option
+						</option>
+						<option value='1'>Chairs</option>
+						<option value='2'>Tables</option>
+						<option value='3'>Sofas</option>
 					</select>
 					<button type='submit'>Submit</button>
 				</form>

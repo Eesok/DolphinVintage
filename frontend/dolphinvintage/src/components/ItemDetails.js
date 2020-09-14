@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-class ItemInfo extends Component {
+class ItemDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -14,14 +15,14 @@ class ItemInfo extends Component {
 	}
 	componentDidMount() {
 		const id = this.props.match.params.id;
-		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
+		axios(`http://localhost:8000/items/${id}`)
 			.then((json) => {
 				this.setState({
 					infoData: json.data,
 				});
 
 				axios(
-					`https://new-dolphin-backend.herokuapp.com/details/${this.state.infoData.details}`
+					`http://localhost:8000/details/${this.state.infoData.details}`
 				).then((json) => {
 					this.setState({
 						detailData: json.data,
@@ -36,9 +37,14 @@ class ItemInfo extends Component {
 	}
 	onDeleteMovie = (event) => {
 		const id = this.props.match.params.id;
-		const url = `https://new-dolphin-backend.herokuapp.com/items/${id}`;
+		const url = `http://localhost:8000/items/${id}`;
 		axios
-			.delete(url)
+			.delete(url, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `JWT ${localStorage.getItem('token')}`,
+				},
+			})
 			.then((res) => {
 				this.setState({
 					deleted: true,
@@ -57,13 +63,20 @@ class ItemInfo extends Component {
 		if (!this.state.infoData || !this.state.detailData) {
 			return <div>Loading...</div>;
 		}
-		return (
+		const logged_in_permissions = (
 			<div>
 				<button onClick={this.onDeleteMovie}>Delete Item</button>
-				<Link to={`/item/${this.props.match.params.id}/edit`}>
-					Update Item
-				</Link>
+				<button>
+					<Link to={`/item/${this.props.match.params.id}/edit`}>
+						Update Item
+					</Link>
+				</button>
+			</div>
+		);
 
+		return (
+			<div>
+				<div>{this.props.logged_in ? logged_in_permissions : null}</div>
 				<h3>{this.state.infoData.name}</h3>
 				<h4>${this.state.infoData.price}</h4>
 				<p>{this.state.infoData.description}</p>
@@ -78,4 +91,8 @@ class ItemInfo extends Component {
 		);
 	}
 }
-export default ItemInfo;
+export default ItemDetails;
+
+ItemDetails.propTypes = {
+	logged_in: PropTypes.bool.isRequired,
+};
