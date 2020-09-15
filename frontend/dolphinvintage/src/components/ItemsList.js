@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Item from './Item';
 import axios from 'axios';
 
+
 class ItemsList extends Component {
 	constructor(props) {
 		super(props);
@@ -16,12 +17,15 @@ class ItemsList extends Component {
 	};
 
 	componentDidMount() {
-		axios('http://localhost:8000/items/')
+		axios('https://new-dolphin-backend.herokuapp.com/items/')
 			.then((json) => {
-				this.setState({
-					itemData: json.data,
+				let categoryId = this.props.match.params.id;
+				let results = json.data.filter((item) => {
+					return parseInt(categoryId) === item.category;
 				});
-				console.log(this.state.itemData[0].name);
+				this.setState({
+					itemData: results,
+				});
 			})
 			.catch(console.error);
 	}

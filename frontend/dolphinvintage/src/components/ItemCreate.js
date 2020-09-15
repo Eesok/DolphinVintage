@@ -25,7 +25,7 @@ class ItemCreate extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		axios({
-			url: 'http://localhost:8000/items/',
+			url: 'https://new-dolphin-backend.herokuapp.com/items/',
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -49,10 +49,10 @@ class ItemCreate extends Component {
 			return <Redirect to={`/item/${createdId}`} />;
 		}
 		return (
-			<div>
+			<div className='form'>
 				<h2>Create an Item</h2>
 				<form onSubmit={this.handleSubmit}>
-					<label htmlFor='name'>Name</label>
+					<label htmlFor='name'>Name: </label>
 					<input
 						placeholder='Item Name'
 						name='name'
@@ -60,7 +60,7 @@ class ItemCreate extends Component {
 						required
 						id='name'
 					/>
-					<label htmlFor='price'>Price</label>
+					<label htmlFor='price'>Price: </label>
 					<input
 						placeholder='Price'
 						name='price'
@@ -68,7 +68,7 @@ class ItemCreate extends Component {
 						onChange={this.handleChange}
 						id='price'
 					/>
-					<label htmlFor='description'>Description</label>
+					<label htmlFor='description'>Description: </label>
 					<input
 						placeholder='Description'
 						name='description'
@@ -76,7 +76,7 @@ class ItemCreate extends Component {
 						onChange={this.handleChange}
 						id='description'
 					/>
-					<label htmlFor='item_photo'>Photo</label>
+					<label htmlFor='item_photo'>Photo: </label>
 					<input
 						placeholder='Photo'
 						name='item_photo'
@@ -84,7 +84,7 @@ class ItemCreate extends Component {
 						onChange={this.handleChange}
 						id='item_photo'
 					/>
-					<label htmlFor='category'>Category</label>
+					<label htmlFor='category'>Category: </label>
 					<select
 						defaultValue='DEFAULT'
 						name='category'

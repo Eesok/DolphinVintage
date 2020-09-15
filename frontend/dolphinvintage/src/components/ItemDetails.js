@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
+
 class ItemDetails extends Component {
 	constructor(props) {
 		super(props);
@@ -15,14 +16,14 @@ class ItemDetails extends Component {
 	}
 	componentDidMount() {
 		const id = this.props.match.params.id;
-		axios(`http://localhost:8000/items/${id}`)
+		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
 			.then((json) => {
 				this.setState({
 					infoData: json.data,
 				});
 
 				axios(
-					`http://localhost:8000/details/${this.state.infoData.details}`
+					`https://new-dolphin-backend.herokuapp.com/details/${this.state.infoData.details}`
 				).then((json) => {
 					this.setState({
 						detailData: json.data,
@@ -35,9 +36,9 @@ class ItemDetails extends Component {
 				});
 			});
 	}
-	onDeleteMovie = (event) => {
+	onDeleteItem = (event) => {
 		const id = this.props.match.params.id;
-		const url = `http://localhost:8000/items/${id}`;
+		const url = `https://new-dolphin-backend.herokuapp.com/items/${id}`;
 		axios
 			.delete(url, {
 				headers: {
@@ -63,9 +64,9 @@ class ItemDetails extends Component {
 		if (!this.state.infoData || !this.state.detailData) {
 			return <div>Loading...</div>;
 		}
-		const logged_in_permissions = (
+		const logged_in_item_permissions = (
 			<div>
-				<button onClick={this.onDeleteMovie}>Delete Item</button>
+				<button onClick={this.onDeleteItem}>Delete Item</button>
 				<button>
 					<Link to={`/item/${this.props.match.params.id}/edit`}>
 						Update Item
@@ -74,18 +75,43 @@ class ItemDetails extends Component {
 			</div>
 		);
 
+		const logged_in_details_permissions = (
+			<div>
+				<button>
+					<Link to={`/item/${this.props.match.params.id}/detail-edit`}>
+						Update Details
+					</Link>
+				</button>
+			</div>
+		);
+
 		return (
 			<div>
-				<div>{this.props.logged_in ? logged_in_permissions : null}</div>
+				<div>{this.props.logged_in ? logged_in_item_permissions : null}</div>
 				<h3>{this.state.infoData.name}</h3>
 				<h4>${this.state.infoData.price}</h4>
 				<p>{this.state.infoData.description}</p>
 				<img src={this.state.infoData.item_photo} />
 				<div>
-					<h2>{this.state.detailData.measurements}</h2>
-					<h2>{this.state.detailData.brand}</h2>
-					<h2>{this.state.detailData.styles}</h2>
-					<h2>{this.state.detailData.materials}</h2>
+					<div>
+						{this.props.logged_in ? logged_in_details_permissions : null}
+					</div>
+					<p>
+						<strong>Measurements: </strong>
+						{this.state.detailData.measurements}
+					</p>
+					<p>
+						<strong>Brand: </strong>
+						{this.state.detailData.brand}
+					</p>
+					<p>
+						<strong>Styles: </strong>
+						{this.state.detailData.styles}
+					</p>
+					<p>
+						<strong>Materials: </strong>
+						{this.state.detailData.materials}
+					</p>
 				</div>
 			</div>
 		);

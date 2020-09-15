@@ -14,7 +14,7 @@ class ItemEdit extends Component {
 
 	componentDidMount() {
 		const id = this.props.match.params.id;
-		axios(`http://localhost:8000/items/${id}`)
+		axios(`https://new-dolphin-backend.herokuapp.com/items/${id}`)
 			.then((json) => {
 				this.setState({
 					itemData: json.data,
@@ -40,12 +40,16 @@ class ItemEdit extends Component {
 		event.preventDefault();
 		const id = this.props.match.params.id;
 		axios
-			.put(`http://localhost:8000/items/${id}`, this.state.itemData, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `JWT ${localStorage.getItem('token')}`,
-				},
-			})
+			.put(
+				`https://new-dolphin-backend.herokuapp.com/items/${id}`,
+				this.state.itemData,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `JWT ${localStorage.getItem('token')}`,
+					},
+				}
+			)
 			.then((json) => {
 				this.setState({
 					updated: true,
@@ -67,7 +71,7 @@ class ItemEdit extends Component {
 			return <Redirect to={`/item/${this.props.match.params.id}`} />;
 		}
 		return (
-			<div>
+			<div className='form'>
 				<h3>Update an item</h3>
 				<form onSubmit={this.handleSubmit}>
 					<label htmlFor='name'>Name</label>

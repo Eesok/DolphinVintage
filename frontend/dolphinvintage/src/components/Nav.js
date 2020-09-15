@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+
 // Credit due to Dakota Lillie @ https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 
 function Nav(props) {

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Category from './Category';
+
 
 class Home extends Component {
 	constructor(props) {
@@ -10,7 +12,7 @@ class Home extends Component {
 	}
 
 	componentDidMount() {
-		axios('http://localhost:8000/categories/')
+		axios('https://new-dolphin-backend.herokuapp.com/categories/')
 			.then((json) => {
 				this.setState({
 					categoryData: json.data,
@@ -20,7 +22,7 @@ class Home extends Component {
 	}
 
 	render() {
-		const renderCategory = this.state.itemData.map((category) => (
+		const renderCategory = this.state.categoryData.map((category) => (
 			<Category key={category.id} category={category} />
 		));
 		return <div className='category-list'>{renderCategory}</div>;

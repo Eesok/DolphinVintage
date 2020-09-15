@@ -6,8 +6,8 @@ import ItemEdit from './components/ItemEdit';
 import ItemCreate from './components/ItemCreate';
 import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
-import './App.css';
+import Home from './components/Home';
+import DetailEdit from './components/DetailEdit';
 
 class App extends Component {
 	constructor(props) {
@@ -23,11 +23,14 @@ class App extends Component {
 
 	componentDidMount() {
 		if (this.state.logged_in) {
-			fetch('http://localhost:8000/accounts/current_user/', {
-				headers: {
-					Authorization: `JWT ${localStorage.getItem('token')}`,
-				},
-			})
+			fetch(
+				'https://new-dolphin-backend.herokuapp.com/accounts/current_user/',
+				{
+					headers: {
+						Authorization: `JWT ${localStorage.getItem('token')}`,
+					},
+				}
+			)
 				.then((res) => res.json())
 				.then((json) => {
 					this.setState({ username: json.username });
@@ -37,7 +40,7 @@ class App extends Component {
 
 	handle_login = (e, data) => {
 		e.preventDefault();
-		fetch('http://localhost:8000/token-auth/', {
+		fetch('https://new-dolphin-backend.herokuapp.com/token-auth/', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -54,26 +57,6 @@ class App extends Component {
 				});
 			});
 	};
-
-	// handle_signup = (e, data) => {
-	// 	e.preventDefault();
-	// 	fetch('http://localhost:8000/accounts/users/', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		body: JSON.stringify(data),
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((json) => {
-	// 			localStorage.setItem('token', json.token);
-	// 			this.setState({
-	// 				logged_in: true,
-	// 				displayed_form: '',
-	// 				username: json.username,
-	// 			});
-	// 		});
-	// };
 
 	handle_logout = () => {
 		localStorage.removeItem('token');
@@ -92,9 +75,6 @@ class App extends Component {
 			case 'login':
 				form = <LoginForm handle_login={this.handle_login} />;
 				break;
-			// case 'signup':
-			// 	form = <SignupForm handle_signup={this.handle_signup} />;
-			// 	break;
 			default:
 				form = null;
 		}
@@ -102,9 +82,6 @@ class App extends Component {
 			<div className='App'>
 				<header>
 					<Link to='/'>Home</Link>
-				</header>
-				<main>
-					<p className='title'>Dolphin Vintage</p>
 					<Nav
 						logged_in={this.state.logged_in}
 						display_form={this.display_form}
@@ -116,8 +93,19 @@ class App extends Component {
 							? `Hello, ${this.state.username}`
 							: 'Please Log In'}
 					</h3>
+				</header>
+				<main>
+					<p className='title'>Dolphin Vintage</p>
+
 					<Switch>
-						<Route path='/' exact component={ItemsList} />
+						<Route path='/' exact component={Home} />
+						<Route
+							path='/category/:id'
+							exact
+							render={(routerProps) => {
+								return <ItemsList match={routerProps.match} />;
+							}}
+						/>
 						<Route
 							path='/item/:id'
 							exact
@@ -132,6 +120,7 @@ class App extends Component {
 							logged_in={this.logged_in}
 						/>
 						<Route path='/item/:id/edit' exact component={ItemEdit} />
+						<Route path='/item/:id/detail-edit' exact component={DetailEdit} />
 						<Route path='/items/create' exact component={ItemCreate} />
 					</Switch>
 				</main>
